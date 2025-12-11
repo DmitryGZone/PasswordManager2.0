@@ -1,0 +1,42 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Welcome, @Model.Username!</h2>
+
+<p><a asp-page="/Index" asp-page-handler="Logout">Logout</a></p>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+else if (Model.Accounts?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account Name</th>
+                <th>Login</th>
+                <th>URL</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acc in Model.Accounts)
+            {
+                <tr>
+                    <td>@acc.AccountName</td>
+                    <td>@acc.Login</td>
+                    <td><a href="@acc.Url" target="_blank">@acc.Url</a></td>
+                    <td>@acc.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No accounts found.</p>
+}
